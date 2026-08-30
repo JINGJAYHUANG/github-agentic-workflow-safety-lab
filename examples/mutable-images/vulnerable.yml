@@ -1,0 +1,13 @@
+name: Vulnerable mutable container
+on: push
+permissions:
+  contents: read
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    container: python:latest
+    services:
+      redis:
+        image: redis:7
+    steps:
+      - run: python --version

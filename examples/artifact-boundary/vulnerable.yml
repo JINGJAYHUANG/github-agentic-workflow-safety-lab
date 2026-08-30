@@ -1,0 +1,15 @@
+name: Vulnerable privileged artifact execution
+on:
+  workflow_run:
+    workflows: [Untrusted PR build]
+    types: [completed]
+permissions:
+  contents: write
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          run-id: ${{ github.event.workflow_run.id }}
+      - run: chmod +x payload/run.sh && ./payload/run.sh

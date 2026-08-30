@@ -1,0 +1,29 @@
+name: Rule proposal
+description: Propose a new auditable security signal
+title: "[rule] "
+labels: [enhancement, rule]
+body:
+  - type: textarea
+    id: threat
+    attributes:
+      label: Threat and trust boundary
+    validations:
+      required: true
+  - type: textarea
+    id: safe
+    attributes:
+      label: Hardened alternative
+    validations:
+      required: true
+  - type: textarea
+    id: false-positives
+    attributes:
+      label: Expected false positives and limitations
+    validations:
+      required: true
+  - type: input
+    id: reference
+    attributes:
+      label: Primary source
+    validations:
+      required: true

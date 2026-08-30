@@ -1,0 +1,100 @@
+{
+  "pairs": [
+    {
+      "expected_rules": [
+        "GH002",
+        "GH003",
+        "GH004"
+      ],
+      "hardened": "examples/script-injection/hardened.yml",
+      "name": "script-injection",
+      "vulnerable": "examples/script-injection/vulnerable.yml"
+    },
+    {
+      "expected_rules": [
+        "GH003",
+        "GH005",
+        "GH007"
+      ],
+      "hardened": "examples/pwn-request/hardened.yml",
+      "name": "pwn-request",
+      "vulnerable": "examples/pwn-request/vulnerable.yml"
+    },
+    {
+      "expected_rules": [
+        "GH003",
+        "GH006"
+      ],
+      "hardened": "examples/self-hosted-pr/hardened.yml",
+      "name": "self-hosted-pr",
+      "vulnerable": "examples/self-hosted-pr/vulnerable.yml"
+    },
+    {
+      "expected_rules": [
+        "GH003",
+        "GH009"
+      ],
+      "hardened": "examples/artifact-boundary/hardened.yml",
+      "name": "artifact-boundary",
+      "vulnerable": "examples/artifact-boundary/vulnerable.yml"
+    },
+    {
+      "expected_rules": [
+        "GH008"
+      ],
+      "hardened": "examples/download-execute/hardened.yml",
+      "name": "download-execute",
+      "vulnerable": "examples/download-execute/vulnerable.yml"
+    },
+    {
+      "expected_rules": [
+        "GH002",
+        "GH003",
+        "AG001",
+        "AG002",
+        "AG003",
+        "AG005",
+        "AG006",
+        "AG007",
+        "AG008"
+      ],
+      "hardened": "examples/comment-agent/hardened.yml",
+      "name": "comment-agent",
+      "vulnerable": "examples/comment-agent/vulnerable.yml"
+    },
+    {
+      "expected_rules": [
+        "AG004",
+        "GH003"
+      ],
+      "hardened": "examples/agent-output-execution/hardened.yml",
+      "name": "agent-output-execution",
+      "vulnerable": "examples/agent-output-execution/vulnerable.yml"
+    },
+    {
+      "expected_rules": [
+        "GH012"
+      ],
+      "hardened": "examples/oidc-boundary/hardened.yml",
+      "name": "oidc-boundary",
+      "vulnerable": "examples/oidc-boundary/vulnerable.yml"
+    },
+    {
+      "expected_rules": [
+        "GH013"
+      ],
+      "hardened": "examples/mutable-images/hardened.yml",
+      "name": "mutable-images",
+      "vulnerable": "examples/mutable-images/vulnerable.yml"
+    },
+    {
+      "expected_rules": [
+        "GH014"
+      ],
+      "hardened": "examples/dynamic-runner/hardened.yml",
+      "name": "dynamic-runner",
+      "vulnerable": "examples/dynamic-runner/vulnerable.yml"
+    }
+  ],
+  "schema_version": "1.0"
+}

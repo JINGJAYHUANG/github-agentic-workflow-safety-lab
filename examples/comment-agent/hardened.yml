@@ -1,0 +1,28 @@
+name: Hardened comment analysis gate
+on:
+  issue_comment:
+    types: [created]
+permissions:
+  contents: read
+  issues: read
+concurrency:
+  group: comment-analysis-${{ github.event.issue.number }}
+  cancel-in-progress: true
+jobs:
+  authorize-and-package:
+    if: >-
+      github.event.comment.author_association == 'MEMBER' &&
+      startsWith(github.event.comment.body, '/agent-review ')
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - name: Package untrusted comment as data
+        env:
+          COMMENT_BODY: ${{ github.event.comment.body }}
+        run: |
+          python - <<'PY'
+          import json, os
+          body = os.environ["COMMENT_BODY"]
+          assert body.startswith("/agent-review ")
+          print(json.dumps({"request": body[len("/agent-review "):][:1000]}, sort_keys=True))
+          PY

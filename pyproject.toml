@@ -1,0 +1,48 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "github-agentic-workflow-safety-lab"
+version = "0.1.0"
+description = "A policy-as-code lab and static analyzer for GitHub Actions and agentic workflow risks."
+readme = "README.md"
+requires-python = ">=3.11"
+license = {text = "MIT"}
+authors = [{name = "JINGJAYHUANG"}]
+keywords = [
+  "github-actions",
+  "security",
+  "agentic-workflows",
+  "policy-as-code",
+  "supply-chain",
+  "static-analysis",
+]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "License :: OSI Approved :: MIT License",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Topic :: Security",
+  "Topic :: Software Development :: Quality Assurance",
+]
+dependencies = ["PyYAML>=6.0.2,<7"]
+
+[project.scripts]
+gawsl = "gawsl.cli:main"
+
+[project.urls]
+Repository = "https://github.com/JINGJAYHUANG/github-agentic-workflow-safety-lab"
+Issues = "https://github.com/JINGJAYHUANG/github-agentic-workflow-safety-lab/issues"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+include-package-data = true
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+gawsl = ["data/*.json"]

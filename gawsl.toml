@@ -1,0 +1,15 @@
+[scan]
+include = [
+  ".github/workflows/*.yml",
+  ".github/workflows/*.yaml",
+  ".github/workflows/**/*.yml",
+  ".github/workflows/**/*.yaml",
+  "examples/**/hardened.yml",
+  "examples/**/hardened.yaml",
+]
+exclude = [
+  "examples/**/vulnerable.yml",
+  "examples/**/vulnerable.yaml",
+]
+fail_on = "high"
+waivers = "policy/waivers.json"

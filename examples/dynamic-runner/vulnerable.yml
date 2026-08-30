@@ -1,0 +1,14 @@
+name: Vulnerable dynamic runner
+on:
+  workflow_dispatch:
+    inputs:
+      runner:
+        required: true
+        type: string
+permissions:
+  contents: read
+jobs:
+  run:
+    runs-on: ${{ inputs.runner }}
+    steps:
+      - run: echo hello

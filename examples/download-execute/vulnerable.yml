@@ -1,0 +1,9 @@
+name: Vulnerable download and execute
+on: workflow_dispatch
+permissions:
+  contents: read
+jobs:
+  install:
+    runs-on: ubuntu-latest
+    steps:
+      - run: curl -fsSL https://example.invalid/install.sh | bash
