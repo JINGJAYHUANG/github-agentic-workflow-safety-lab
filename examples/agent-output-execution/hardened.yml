@@ -1,0 +1,19 @@
+name: Hardened typed agent proposal
+on: workflow_dispatch
+permissions:
+  contents: read
+jobs:
+  validate-proposal:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - name: Validate committed synthetic proposal
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          proposal = json.loads(Path('examples/agent-output-execution/proposal.json').read_text())
+          allowed = {'add-label', 'draft-comment'}
+          assert proposal['operation'] in allowed
+          assert set(proposal) == {'operation', 'value'}
+          PY

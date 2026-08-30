@@ -1,0 +1,14 @@
+name: Hardened verified download pattern
+on: workflow_dispatch
+permissions:
+  contents: read
+jobs:
+  verify-only:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - name: Verify a pre-vendored fixture digest
+        run: |
+          printf '%s  %s\n' \
+            '4e3406b9ea2b8a860283aee0caa500bf8629c4e08d35f04c5f8a4f75b587aea7' \
+            'examples/download-execute/payload.txt' | sha256sum -c -

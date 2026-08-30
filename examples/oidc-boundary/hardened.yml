@@ -1,0 +1,19 @@
+name: Hardened OIDC deployment boundary
+on:
+  push:
+    tags: ['v*']
+permissions:
+  contents: read
+jobs:
+  deploy:
+    environment: production
+    permissions:
+      contents: read
+      id-token: write
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - name: Verify immutable release metadata
+        env:
+          RELEASE_REF: ${{ github.ref }}
+        run: python -c "import os; assert os.environ['RELEASE_REF'].startswith('refs/tags/v')"

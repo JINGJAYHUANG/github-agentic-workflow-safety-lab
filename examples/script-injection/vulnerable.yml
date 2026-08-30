@@ -1,0 +1,12 @@
+name: Vulnerable script interpolation
+on:
+  issues:
+    types: [opened]
+permissions: write-all
+jobs:
+  label:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Echo issue title
+        run: echo "${{ github.event.issue.title }}"

@@ -1,0 +1,10 @@
+cff-version: 1.2.0
+title: GitHub Agentic Workflow Safety Lab
+message: If you use this software, please cite the repository and release.
+type: software
+authors:
+  - name: JINGJAYHUANG
+version: 0.1.0
+date-released: 2026-08-30
+repository-code: https://github.com/JINGJAYHUANG/github-agentic-workflow-safety-lab
+license: MIT

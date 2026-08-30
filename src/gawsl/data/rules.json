@@ -1,0 +1,247 @@
+{
+  "rules": [
+    {
+      "category": "agent-authorization",
+      "description": "A public comment command can become an execution API unless the actor and repository relationship are checked before any agent or write-capable step runs.",
+      "id": "AG001",
+      "references": [
+        "https://docs.github.com/en/actions/reference/security/secure-use"
+      ],
+      "remediation": "Require an explicit command and allowlisted actor, team, or trusted author association before routing to the agent.",
+      "severity": "critical",
+      "title": "Comment-triggered agent lacks an actor authorization gate"
+    },
+    {
+      "category": "prompt-injection",
+      "description": "Issue, pull-request, review, or comment text is attacker-controlled. Giving it to an agent that can access tools or secrets creates a prompt-injection path.",
+      "id": "AG002",
+      "references": [
+        "https://docs.github.com/en/actions/reference/security/secure-use"
+      ],
+      "remediation": "Separate untrusted content from instructions, use a read-only analysis stage, validate structured output, and require approval before privileged actions.",
+      "severity": "critical",
+      "title": "Untrusted event text is passed to an agent"
+    },
+    {
+      "category": "agent-privilege",
+      "description": "An agent can be manipulated or make mistakes. Combining interpretation and repository write authority removes an important control boundary.",
+      "id": "AG003",
+      "references": [
+        "https://docs.github.com/en/actions/security-for-github-actions/security-guides/automatic-token-authentication"
+      ],
+      "remediation": "Run the agent read-only, emit a bounded proposal artifact, and apply changes in a separate reviewed job with minimal write scope.",
+      "severity": "high",
+      "title": "Agent step runs with write-capable token permissions"
+    },
+    {
+      "category": "agent-output",
+      "description": "Model output is untrusted data. Substituting it into a shell, eval, source, interpreter, or generated workflow turns model text into code execution.",
+      "id": "AG004",
+      "references": [
+        "https://docs.github.com/en/actions/reference/security/secure-use"
+      ],
+      "remediation": "Require a typed schema, allowlisted operations, static validation, and human approval. Never execute free-form model output directly.",
+      "severity": "critical",
+      "title": "Agent output is executed as code"
+    },
+    {
+      "category": "agent-change-control",
+      "description": "Direct mutation removes the independent review boundary and can amplify prompt injection or model error.",
+      "id": "AG005",
+      "references": [
+        "https://docs.github.com/en/actions/security-for-github-actions/security-guides/automatic-token-authentication"
+      ],
+      "remediation": "Have the agent create a patch or draft pull request. Require branch protection, code review, and separate merge authority.",
+      "severity": "high",
+      "title": "Agent workflow directly pushes, merges, or mutates repository state"
+    },
+    {
+      "category": "agent-secrets",
+      "description": "Prompted agents and their dependencies may log, transmit, or accidentally disclose credentials.",
+      "id": "AG006",
+      "references": [
+        "https://docs.github.com/en/actions/reference/security/secure-use"
+      ],
+      "remediation": "Keep secrets outside the reasoning context. Use a narrow broker or post-approval step that exposes only the exact operation required.",
+      "severity": "critical",
+      "title": "Secret is passed directly to an agent step"
+    },
+    {
+      "category": "agent-availability",
+      "description": "Repeated comments can create parallel agent runs, duplicate changes, race conditions, and avoidable cost.",
+      "id": "AG007",
+      "references": [
+        "https://docs.github.com/en/actions/reference/security/secure-use"
+      ],
+      "remediation": "Add a stable concurrency group derived from the issue or pull request and choose an explicit cancellation policy.",
+      "severity": "medium",
+      "title": "Comment-driven agent workflow has no concurrency control"
+    },
+    {
+      "category": "agent-approval",
+      "description": "A write-capable agent job without an environment cannot use environment-level required reviewers or scoped environment secrets.",
+      "id": "AG008",
+      "references": [
+        "https://docs.github.com/en/actions/security-for-github-actions/security-guides/automatic-token-authentication"
+      ],
+      "remediation": "Move mutation into a separate job protected by a GitHub environment with required reviewers and narrow secrets.",
+      "severity": "high",
+      "title": "Write-capable agent job has no protected environment"
+    },
+    {
+      "category": "permissions",
+      "description": "A workflow without an explicit permissions block relies on repository defaults, which are harder to review and may drift.",
+      "id": "GH001",
+      "references": [
+        "https://docs.github.com/en/actions/security-for-github-actions/security-guides/automatic-token-authentication"
+      ],
+      "remediation": "Add a top-level `permissions: contents: read` block, then grant narrower job-level write scopes only where required.",
+      "severity": "medium",
+      "title": "Explicit token permissions are missing"
+    },
+    {
+      "category": "permissions",
+      "description": "`write-all` grants every available GITHUB_TOKEN write scope to the workflow or job.",
+      "id": "GH002",
+      "references": [
+        "https://docs.github.com/en/actions/security-for-github-actions/security-guides/automatic-token-authentication"
+      ],
+      "remediation": "Replace `write-all` with an explicit allowlist of the smallest required scopes.",
+      "severity": "critical",
+      "title": "Write-all token permissions"
+    },
+    {
+      "category": "supply-chain",
+      "description": "Mutable tags and branches can change after review and therefore do not provide immutable dependency identity.",
+      "id": "GH003",
+      "references": [
+        "https://docs.github.com/en/actions/reference/security/secure-use"
+      ],
+      "remediation": "Pin every third-party action and reusable workflow to a full 40-character commit SHA and record the human-readable release in a comment.",
+      "severity": "high",
+      "title": "Action or reusable workflow is not pinned to a full commit SHA"
+    },
+    {
+      "category": "injection",
+      "description": "Event-controlled text embedded in a `run` or `github-script` body can change the program that the runner executes.",
+      "id": "GH004",
+      "references": [
+        "https://docs.github.com/en/actions/reference/security/secure-use"
+      ],
+      "remediation": "Move the expression into an environment variable or action input and treat it strictly as data; validate it before use.",
+      "severity": "high",
+      "title": "Untrusted expression is interpolated directly into executable script"
+    },
+    {
+      "category": "privilege-boundary",
+      "description": "A pull_request_target workflow can have base-repository secrets and write permissions. Checking out and executing PR-controlled code creates a pwn-request path.",
+      "id": "GH005",
+      "references": [
+        "https://docs.github.com/en/actions/reference/security/securely-using-pull_request_target"
+      ],
+      "remediation": "Use `pull_request` for untrusted build/test code. Keep pull_request_target limited to metadata-only operations and never execute PR-controlled content.",
+      "severity": "critical",
+      "title": "Privileged pull_request_target workflow checks out PR-controlled code"
+    },
+    {
+      "category": "runner",
+      "description": "Self-hosted runners can retain credentials, files, network access, or state and are not guaranteed to be clean or ephemeral.",
+      "id": "GH006",
+      "references": [
+        "https://docs.github.com/en/actions/reference/runners/self-hosted-runners"
+      ],
+      "remediation": "Use GitHub-hosted runners for public or fork-controlled pull requests, or isolate ephemeral runners in tightly restricted groups.",
+      "severity": "critical",
+      "title": "Untrusted contribution can run on a self-hosted runner"
+    },
+    {
+      "category": "credentials",
+      "description": "actions/checkout persists the workflow token by default. Later tools or untrusted code in the job can reuse those credentials.",
+      "id": "GH007",
+      "references": [
+        "https://docs.github.com/en/actions/reference/security/secure-use"
+      ],
+      "remediation": "Set `persist-credentials: false` and provide a narrowly scoped credential only to the exact step that needs it.",
+      "severity": "high",
+      "title": "Checkout credentials persist in a write-capable job"
+    },
+    {
+      "category": "supply-chain",
+      "description": "Download-and-execute pipelines provide no stable identity, integrity check, or review point for remote code.",
+      "id": "GH008",
+      "references": [
+        "https://docs.github.com/en/actions/reference/security/secure-use"
+      ],
+      "remediation": "Download to a file, verify a pinned digest or signature, inspect provenance, and execute only after verification.",
+      "severity": "critical",
+      "title": "Network download is piped directly to a shell"
+    },
+    {
+      "category": "artifact-boundary",
+      "description": "Artifacts produced by a different workflow may contain fork-controlled content. A privileged workflow must treat them as untrusted data.",
+      "id": "GH009",
+      "references": [
+        "https://docs.github.com/en/actions/reference/security/securely-using-pull_request_target"
+      ],
+      "remediation": "Bind artifacts to an expected workflow, repository, commit, and digest; parse them as data instead of executing them.",
+      "severity": "critical",
+      "title": "Privileged workflow_run job executes downloaded artifacts"
+    },
+    {
+      "category": "secrets",
+      "description": "Secrets in pull_request_target, issue_comment, discussion_comment, or workflow_run workflows raise the impact of prompt, script, checkout, and artifact attacks.",
+      "id": "GH010",
+      "references": [
+        "https://docs.github.com/en/actions/reference/security/secure-use"
+      ],
+      "remediation": "Remove secrets from the untrusted stage. Split the workflow and use an approved environment or narrowly scoped short-lived credential in a trusted stage.",
+      "severity": "high",
+      "title": "Secrets are referenced from an externally triggerable privileged workflow"
+    },
+    {
+      "category": "availability",
+      "description": "A missing timeout allows stuck, adversarial, or unexpectedly expensive jobs to consume runner time indefinitely up to platform limits.",
+      "id": "GH011",
+      "references": [
+        "https://docs.github.com/en/actions/reference/security/secure-use"
+      ],
+      "remediation": "Set a job-level timeout-minutes appropriate to the expected workload.",
+      "severity": "low",
+      "title": "Job has no timeout-minutes"
+    },
+    {
+      "category": "identity",
+      "description": "`id-token: write` allows the job to request an OIDC token. On risky triggers or without an environment boundary, the trust policy may be too broad.",
+      "id": "GH012",
+      "references": [
+        "https://docs.github.com/en/actions/concepts/security/openid-connect"
+      ],
+      "remediation": "Issue OIDC tokens only in a trusted deployment job protected by an environment and restrictive cloud-side subject claims.",
+      "severity": "high",
+      "title": "OIDC token permission lacks a trusted deployment boundary"
+    },
+    {
+      "category": "supply-chain",
+      "description": "A mutable container or service tag can resolve to different code after review.",
+      "id": "GH013",
+      "references": [
+        "https://docs.github.com/en/actions/reference/security/secure-use"
+      ],
+      "remediation": "Pin container and service images by immutable digest, for example `image@sha256:...`.",
+      "severity": "medium",
+      "title": "Container image is referenced by a mutable tag"
+    },
+    {
+      "category": "injection",
+      "description": "Allowing event-controlled text to choose runners or matrix values can redirect execution to privileged infrastructure or expand workload unexpectedly.",
+      "id": "GH014",
+      "references": [
+        "https://docs.github.com/en/actions/reference/security/secure-use"
+      ],
+      "remediation": "Map untrusted input through a fixed allowlist before using it in `runs-on`, `container`, or `strategy.matrix`.",
+      "severity": "high",
+      "title": "Runner or matrix topology depends directly on untrusted input"
+    }
+  ],
+  "schema_version": "1.0"
+}

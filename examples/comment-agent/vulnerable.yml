@@ -1,0 +1,16 @@
+name: Vulnerable comment agent
+on:
+  issue_comment:
+    types: [created]
+permissions: write-all
+jobs:
+  agent:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Autonomous agent
+        id: agent
+        uses: vendor/agent-action@main
+        with:
+          prompt: ${{ github.event.comment.body }}
+          token: ${{ secrets.AGENT_TOKEN }}
+      - run: git push origin HEAD:main

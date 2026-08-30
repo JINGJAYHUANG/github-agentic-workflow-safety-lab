@@ -1,0 +1,13 @@
+name: Vulnerable agent output execution
+on: workflow_dispatch
+permissions:
+  contents: read
+jobs:
+  run-model-code:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Generate command with agent
+        id: agent
+        uses: vendor/llm-agent@latest
+      - name: Execute generated command
+        run: bash -c "${{ steps.agent.outputs.command }}"

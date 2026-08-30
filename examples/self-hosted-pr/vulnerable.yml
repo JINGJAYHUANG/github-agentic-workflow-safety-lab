@@ -1,0 +1,10 @@
+name: Vulnerable self-hosted PR
+on: [pull_request]
+permissions:
+  contents: read
+jobs:
+  test:
+    runs-on: [self-hosted, production-network]
+    steps:
+      - uses: actions/checkout@main
+      - run: ./tests.sh

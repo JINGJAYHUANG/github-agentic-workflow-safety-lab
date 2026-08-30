@@ -1,0 +1,24 @@
+name: Hardened script handling
+on:
+  issues:
+    types: [opened]
+permissions:
+  contents: read
+  issues: write
+concurrency:
+  group: issue-label-${{ github.event.issue.number }}
+  cancel-in-progress: false
+jobs:
+  label:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - name: Treat issue title as data
+        env:
+          ISSUE_TITLE: ${{ github.event.issue.title }}
+        run: |
+          python - <<'PY'
+          import os
+          title = os.environ["ISSUE_TITLE"]
+          print(title[:200])
+          PY

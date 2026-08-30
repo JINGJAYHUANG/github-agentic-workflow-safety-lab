@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/JINGJAYHUANG/github-agentic-workflow-safety-lab/schemas/scan-result.schema.json",
+  "title": "GAWSL scan result",
+  "type": "object",
+  "required": ["schema_version", "files_scanned", "counts", "findings"],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "files_scanned": {"type": "integer", "minimum": 0},
+    "counts": {"type": "object"},
+    "active_findings": {"type": "integer", "minimum": 0},
+    "suppressed_findings": {"type": "integer", "minimum": 0},
+    "parse_errors": {"type": "array"},
+    "expired_waivers": {"type": "array"},
+    "findings": {"type": "array"}
+  },
+  "additionalProperties": true
+}

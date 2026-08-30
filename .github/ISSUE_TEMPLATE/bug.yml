@@ -1,0 +1,25 @@
+name: Bug report
+description: Report a reproducible analyzer or documentation defect
+title: "[bug] "
+labels: [bug]
+body:
+  - type: textarea
+    id: description
+    attributes:
+      label: Problem
+      description: Describe the observed behavior without including secrets or private workflow content.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Minimal public reproduction
+      description: Use a synthetic workflow.
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: GAWSL version
+    validations:
+      required: true

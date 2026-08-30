@@ -1,0 +1,12 @@
+name: Vulnerable broad OIDC
+on:
+  issue_comment:
+    types: [created]
+permissions:
+  contents: read
+  id-token: write
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo deploy

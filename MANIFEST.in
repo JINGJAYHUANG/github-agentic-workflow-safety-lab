@@ -1,0 +1,6 @@
+include README.md
+include LICENSE
+recursive-include src/gawsl/data *.json
+recursive-include schemas *.json
+recursive-include policy *.toml *.json
+recursive-include examples *.yml *.yaml *.json *.md
