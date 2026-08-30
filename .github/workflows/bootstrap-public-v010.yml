@@ -16,6 +16,7 @@ concurrency:
 
 jobs:
   bootstrap:
+    if: github.actor != 'github-actions[bot]'
     name: Verify archive and publish readable source
     runs-on: ubuntu-24.04
     timeout-minutes: 20
@@ -86,14 +87,18 @@ jobs:
           python scripts/public_audit.py .
           python scripts/check_markdown_links.py
 
-      - name: Publish verified readable source
+      - name: Publish verified non-workflow source
         shell: bash
         run: |
           set -euo pipefail
+          cp .github/workflows/bootstrap-public-v010.yml "$RUNNER_TEMP/bootstrap-public-v010.yml"
           find . -mindepth 1 -maxdepth 1 ! -name .git -exec rm -rf {} +
           cp -a "$RUNNER_TEMP/source/." .
+          rm -f .github/workflows/ci.yml .github/workflows/release.yml
+          mkdir -p .github/workflows
+          cp "$RUNNER_TEMP/bootstrap-public-v010.yml" .github/workflows/bootstrap-public-v010.yml
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add -A
-          git commit -m "feat: publish GitHub agentic workflow safety lab"
+          git commit -m "feat: publish verified non-workflow source"
           git push origin HEAD:feat/public-v0.1.0
